@@ -1,0 +1,115 @@
+@base = http://localhost:5102
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlIjoiQWRtaW4iLCJleHAiOjE3NDk2NDA1NTV9.EvmKGqe-bYUCCCx1bf-d4c8bqtp-ZKpkb7Els9ssa2A
+@user_token  = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVc2VyIiwiZXhwIjoxNzQ5NjQwNTYxfQ.ptiWPXQ3Q0bWJ4Z7NwWaGoWo_0FKN-v53YAo9jEe6RM
+
+### 1. Создание администратора (роль Admin)
+POST {{base}}/users
+Content-Type: application/json
+
+{
+  "login": "admin1",
+  "password": "Pass@123",
+  "roles": ["Admin"]
+}
+
+### 2. Создание пользователя (роль User)
+POST {{base}}/users
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "login": "user1",
+  "password": "Pass@123",
+  "roles": ["User"]
+}
+
+### 3. Изменение профиля пользователя (от администратора)
+PUT {{base}}/users/user1/profile
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "firstName": "Иван",
+  "lastName": "Иванов",
+  "gender": "Male",
+  "dateOfBirth": "1990-05-20"
+}
+
+### 4. Изменение своего профиля (от пользователя)
+PUT {{base}}/users/user1/profile
+Authorization: Bearer {{user_token}}
+Content-Type: application/json
+
+{
+  "firstName": "Пётр",
+  "lastName": "Петров",
+  "gender": "Male",
+  "dateOfBirth": "1992-08-15"
+}
+
+### 5. Смена пароля пользователя (от администратора)
+PUT {{base}}/users/user1/password
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "Pass@123",
+  "newPassword": "AdminNew@123"
+}
+
+### 6. Смена своего пароля (от пользователя)
+PUT {{base}}/users/user1/password
+Authorization: Bearer {{user_token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "Pass@123",
+  "newPassword": "UserNew@123"
+}
+
+### 7. Смена логина пользователя (от администратора)
+PUT {{base}}/users/user1/login
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+  "newLogin": "user1_admin"
+}
+
+### 8. Смена своего логина (от пользователя)
+PUT {{base}}/users/user1/login
+Authorization: Bearer {{user_token}}
+Content-Type: application/json
+
+{
+  "newLogin": "user1_self"
+}
+
+### 9. Получение всех активных пользователей (от администратора)
+GET {{base}}/users
+Authorization: Bearer {{admin_token}}
+
+### 10. Получение пользователя по логину (от администратора)
+GET {{base}}/users/user1
+Authorization: Bearer {{admin_token}}
+
+### 11. Аутентификация пользователя (получение себя по логину и паролю)
+GET {{base}}/users/authenticate
+Authorization: Basic dXNlcjE6UGFzc0AxMjM=
+
+### 12. Получение пользователей старше 30 лет (от администратора)
+GET {{base}}/users/olderthan/30
+Authorization: Bearer {{admin_token}}
+
+### 13. Мягкое удаление пользователя (от администратора)
+DELETE {{base}}/users/user1
+Authorization: Bearer {{admin_token}}
+
+### 14. Восстановление пользователя (от администратора)
+PUT {{base}}/users/user1/restore
+Authorization: Bearer {{admin_token}}
+
+### 15. Полное удаление пользователя (от администратора)
+DELETE {{base}}/users/user1?hard=true
+Authorization: Bearer {{admin_token}}
+
