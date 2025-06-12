@@ -8,6 +8,8 @@ public class CreateUserDto
     public string Login { get; set; } = null!;
 
     [Required]
+    [StringLength(32, MinimumLength = 8, ErrorMessage = "Пароль должен содержать от 8 до 100 символов.")]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "Пароль должен содержать хотя бы одну заглавную букву, одну строчную и одну цифру.")]
     public string Password { get; set; } = null!;
 
     [Required]

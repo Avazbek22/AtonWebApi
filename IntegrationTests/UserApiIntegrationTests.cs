@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using Application.DTOs;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WebApi;
 
@@ -23,7 +24,7 @@ namespace IntegrationTests
             var dto = new
             {
                 login = "testuser",
-                password = "Pass123",
+                password = "Password123@",
                 name = "Test User",
                 gender = 1,
                 birthday = DateTime.UtcNow,
@@ -51,11 +52,13 @@ namespace IntegrationTests
         [InlineData("valid", "", "Name", 1)] // empty password
         [InlineData("valid", "pass", "", 1)] // empty name
         [InlineData("valid", "pass123", "Name", 5)] // invalid gender
-        public async Task CreateUser_InvalidDto_ReturnsBadRequest(string login, string password, string name,
-            int gender)
+        public async Task CreateUser_InvalidDto_ReturnsBadRequest(string login, string password, string name, int gender)
         {
             AddCurrentUser("Admin");
-            var dto = new { login, password, name, gender, birthday = (DateTime?)null, admin = false };
+            CreateUserDto dto = new()
+            {
+                Admin = false, Birthday = DateTime.Now, Login = login, Password = password, Name = name, Gender = gender
+            };
             var response = await _client.PostAsJsonAsync("api/users", dto);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -123,7 +126,7 @@ namespace IntegrationTests
             await _client.PostAsJsonAsync("api/users",
                 new
                 {
-                    login = "temp", password = "p", name = "Temp", gender = 0, birthday = (DateTime?)null, admin = false
+                    login = "temp", password = "Password123@", name = "Temp", gender = 0, birthday = (DateTime?)null, admin = false
                 });
             // soft delete
             var deleteResp = await _client.DeleteAsync("api/users/temp");
@@ -168,7 +171,7 @@ namespace IntegrationTests
             var createDto = new
             {
                 login = "testuser",
-                password = "InitialPass123",
+                password = "Password123@",
                 name = "Test User",
                 gender = 1,
                 birthday = DateTime.UtcNow,
@@ -179,11 +182,11 @@ namespace IntegrationTests
 
             // 3. Меняем пароль от имени самого testuser (или Admin — зависит от логики разрешений)
             AddCurrentUser("testuser");
-            var changePassResp = await _client.PutAsync("api/users/password/testuser?newPassword=NewSecure123", null);
+            var changePassResp = await _client.PutAsync("api/users/password/testuser?newPassword=Password123@", null);
             Assert.Equal(HttpStatusCode.OK, changePassResp.StatusCode);
 
             // 4. Пробуем аутентифицироваться с новым паролем
-            var authResp = await _client.GetAsync("api/users/authenticate?login=testuser&password=NewSecure123");
+            var authResp = await _client.GetAsync("api/users/authenticate?login=testuser&password=Password123@");
             Assert.Equal(HttpStatusCode.OK, authResp.StatusCode);
         }
 
@@ -194,7 +197,7 @@ namespace IntegrationTests
             AddCurrentUser("testuser");
             await _client.PostAsJsonAsync("api/users", new
             {
-                login = "existing", password = "p", name = "E", gender = 0, birthday = (DateTime?)null, admin = false
+                login = "existing", password = "Password123@", name = "E", gender = 0, birthday = (DateTime?)null, admin = false
             });
 
             var response = await _client.PutAsync("api/users/login/testuser?newLogin=existing", null);
@@ -207,7 +210,7 @@ namespace IntegrationTests
             AddCurrentUser("testuser");
             await _client.PutAsync("api/users/login/testuser?newLogin=newloginuser", null);
 
-            var authResp = await _client.GetAsync("api/users/authenticate?login=newloginuser&password=Pass123");
+            var authResp = await _client.GetAsync("api/users/authenticate?login=newloginuser&password=Password123@");
             Assert.Equal(HttpStatusCode.OK, authResp.StatusCode);
         }
 
@@ -226,7 +229,7 @@ namespace IntegrationTests
 
             await _client.PostAsJsonAsync("api/users", new
             {
-                login = "restorable", password = "rest", name = "Res", gender = 0, birthday = (DateTime?)null, admin = false
+                login = "restorable", password = "Password!123", name = "Res", gender = 0, birthday = (DateTime?)null, admin = false
             });
 
             await _client.DeleteAsync("api/users/restorable"); // soft delete
