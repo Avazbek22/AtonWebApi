@@ -41,6 +41,7 @@ AtonWebApi.sln
     └── AtonWebApi.Api/            # ASP.NET Core Web API (контроллеры, DI, Swagger)
 └── tests/
     └── AtonWebApi.Tests/         # Юнит-тесты (xUnit, Moq, EF Core InMemory)
+    └── AtonWebApi.InegrationTests/         # Интеграционные тесты (WebApplicationFactory)
 ```
 
 ---
@@ -60,7 +61,7 @@ AtonWebApi.sln
 
 1. **Клонировать репозиторий**
    ```bash
-   git clone https://github.com/<ваш-логин>/AtonWebApi.git
+   git clone https://github.com/Avazbek22/AtonWebApi.git
    cd AtonWebApi
    ```
 2. **Сборка**
@@ -74,7 +75,7 @@ AtonWebApi.sln
    ```
    Swagger будет доступен по адресу:
    ```
-   https://localhost:5001/swagger/index.html
+   https://localhost:5102/swagger/index.html
    ```
 4. **Запуск тестов**
    ```bash
