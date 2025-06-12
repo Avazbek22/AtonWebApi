@@ -12,6 +12,10 @@ public class DeleteUserHandler(IUserRepository repository) : IRequestHandler<Del
         var currentUser = await repository.GetByLoginAsync(request.CurrentUserLogin);
         if (currentUser is null || !currentUser.Admin)
             return false;
+        
+        // Нельзя удалить самого себя
+        if (request.CurrentUserLogin == request.TargetLogin)
+            return false;
 
         var user = await repository.GetByLoginAsync(request.TargetLogin);
         if (user is null)

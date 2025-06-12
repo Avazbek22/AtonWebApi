@@ -18,6 +18,7 @@ public class CreateUserHandler(IUserRepository repository, IMapper mapper) : IRe
         }
         
         var user = mapper.Map<User>(request.Dto);
+        user.CreatedBy = request.CurrentUserLogin;
 
         await repository.AddAsync(user);
         await repository.SaveChangesAsync();
