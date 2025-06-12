@@ -38,7 +38,7 @@ namespace IntegrationTests
         [Fact]
         public async Task CreateUser_WithoutHeader_ReturnsBadRequest()
         {
-            AddCurrentUser(null);
+            AddCurrentUser(null!);
             var dto = new
             {
                 login = "noheader", password = "p", name = "N", gender = 0, birthday = (DateTime?)null, admin = false

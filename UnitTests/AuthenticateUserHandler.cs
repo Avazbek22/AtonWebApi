@@ -2,10 +2,22 @@ using Moq;
 
 namespace AuthenticateUserHandler.Tests
 {
-    public class User { public int Id { get; set; } public string Login { get; set; } public string Password { get; set; } public bool IsActive { get; set; } = true; }
+    public class User 
+    { 
+        public int Id { get; set; } 
+        public string Login { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public bool IsActive { get; set; } = true; 
+    }
+    
     public interface IUserRepository { User GetByLogin(string login); }
 
-    public class AuthenticateUserCommand { public string Login; public string Password; }
+    public class AuthenticateUserCommand
+    {
+        public string Login = null!; 
+        public string Password = null!;
+    }
+    
     public class AuthenticateUserHandler(IUserRepository repo)
     {
         public async Task<int> Handle(AuthenticateUserCommand cmd)

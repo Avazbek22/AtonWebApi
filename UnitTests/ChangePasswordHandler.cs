@@ -2,7 +2,11 @@ using Moq;
 
 namespace ChangePasswordHandler.Tests
 {
-    public class User { public int Id { get; set; } public string Password { get; set; } }
+    public class User
+    {
+        public int Id { get; set; } 
+        public string Password { get; set; } = null!;
+    }
 
     public interface IUserRepository
     {
@@ -10,7 +14,12 @@ namespace ChangePasswordHandler.Tests
         void Update(User user);
     }
 
-    public class ChangePasswordCommand { public int Id; public string OldPassword; public string NewPassword; }
+    public class ChangePasswordCommand
+    {
+        public int Id; 
+        public string OldPassword = null!; 
+        public string NewPassword = null!;
+    }
     public class ChangePasswordHandler(IUserRepository repo)
     {
         public async Task Handle(ChangePasswordCommand cmd)

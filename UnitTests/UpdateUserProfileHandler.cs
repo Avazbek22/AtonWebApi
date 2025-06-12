@@ -2,7 +2,11 @@ using Moq;
 
 namespace UpdateUserProfileHandler.Tests
 {
-    public class User { public int Id { get; set; } public string Name { get; set; } }
+    public class User 
+    { 
+        public int Id { get; set; } 
+        public string Name { get; set; } = null!;
+    }
 
     public interface IUserRepository
     {
@@ -10,7 +14,7 @@ namespace UpdateUserProfileHandler.Tests
         void Update(User user);
     }
 
-    public class UpdateUserProfileCommand { public int Id; public string Name; }
+    public class UpdateUserProfileCommand { public int Id; public string Name = null!; }
     public class UpdateUserProfileHandler(IUserRepository repo)
     {
         public async Task Handle(UpdateUserProfileCommand cmd)

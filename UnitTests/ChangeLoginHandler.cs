@@ -2,7 +2,11 @@ using Moq;
 
 namespace ChangeLoginHandler.Tests
 {
-    public class User { public int Id { get; set; } public string Login { get; set; } }
+    public class User 
+    { 
+        public int Id { get; set; } 
+        public string Login { get; set; } = null!;
+    }
 
     public interface IUserRepository
     {
@@ -11,7 +15,7 @@ namespace ChangeLoginHandler.Tests
         void Update(User user);
     }
 
-    public class ChangeLoginCommand { public int Id; public string NewLogin; }
+    public class ChangeLoginCommand { public int Id; public string NewLogin = null!; }
     public class ChangeLoginHandler(IUserRepository repo)
     {
         public async Task Handle(ChangeLoginCommand cmd)

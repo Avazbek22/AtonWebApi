@@ -6,9 +6,9 @@ namespace EfUserReposotory.Tests
     public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string Name { get; set; } = null!;
+        public string Login { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public int Age { get; set; }
         public bool IsActive { get; set; } = true;
     }
@@ -111,7 +111,7 @@ namespace EfUserReposotory.Tests
                 repo.Update(user);
 
                 var updated = context.Users.Find(user.Id);
-                Assert.Equal("Robert", updated.Name);
+                Assert.Equal("Robert", updated!.Name);
             }
         }
 
@@ -129,7 +129,7 @@ namespace EfUserReposotory.Tests
                 repo.SoftDelete(userId);
 
                 var user = context.Users.Find(userId);
-                Assert.False(user.IsActive);
+                Assert.False(user!.IsActive);
             }
         }
 

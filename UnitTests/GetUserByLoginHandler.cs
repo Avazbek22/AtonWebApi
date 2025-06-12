@@ -2,10 +2,15 @@ using Moq;
 
 namespace GetUserByLoginHandler.Tests
 {
-    public class User { public int Id { get; set; } public string Login { get; set; } }
+    public class User 
+    { 
+        public int Id { get; set; } 
+        public string Login { get; set; } = null!;
+    }
+    
     public interface IUserRepository { User GetByLogin(string login); }
 
-    public class GetUserByLoginQuery { public string Login; }
+    public class GetUserByLoginQuery { public string Login = null!; }
     public class GetUserByLoginHandler(IUserRepository repo)
     {
         public async Task<User> Handle(GetUserByLoginQuery query)

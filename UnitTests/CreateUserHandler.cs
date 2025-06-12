@@ -5,9 +5,9 @@ namespace Create.Tests
     public class User
     {
         public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Name { get; set; }
+        public string Login { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public bool IsActive { get; set; } = true;
     }
 
@@ -17,7 +17,13 @@ namespace Create.Tests
         void Add(User user);
     }
 
-    public class CreateUserCommand { public string Login; public string Name; public string Password; }
+    public class CreateUserCommand
+    {
+        public string Login = null!; 
+        public string Name = null!;
+        public string Password = null!;
+    }
+    
     public class CreateUserHandler(IUserRepository repo)
     {
         public async Task<int> Handle(CreateUserCommand cmd)
