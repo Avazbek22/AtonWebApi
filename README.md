@@ -35,13 +35,13 @@
 ```
 AtonWebApi.sln
 └── src/
-    ├── AtonWebApi.Domain/         # Сущности и Enums
-    ├── AtonWebApi.Application/    # Интерфейсы, DTO, CQRS команды и Handlers
-    ├── AtonWebApi.Infrastructure/ # EF Core DbContext и репозитории
-    └── AtonWebApi.Api/            # ASP.NET Core Web API (контроллеры, DI, Swagger)
+    ├── AtonWebApi.Domain/           # Сущности и Enums
+    ├── AtonWebApi.Application/      # Интерфейсы, DTO, CQRS команды и Handlers
+    ├── AtonWebApi.Infrastructure/   # EF Core DbContext и репозитории
+    └── AtonWebApi.Api/              # ASP.NET Core Web API (контроллеры, DI, Swagger)
 └── tests/
-    └── AtonWebApi.Tests/         # Юнит-тесты (xUnit, Moq, EF Core InMemory)
-    └── AtonWebApi.InegrationTests/         # Интеграционные тесты (WebApplicationFactory)
+    └── AtonWebApi.Tests/            # Юнит-тесты (xUnit, Moq, EF Core InMemory)
+    └── AtonWebApi.InegrationTests/  # Интеграционные тесты (WebApplicationFactory)
 ```
 
 ---
