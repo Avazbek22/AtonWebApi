@@ -104,6 +104,9 @@ namespace WebApi.Controllers;
             if (string.IsNullOrWhiteSpace(currentUser))
                 return BadRequest("Требуется заголовок X-Current-User");
 
+            if (currentUser.ToLower() != "admin")
+                return BadRequest("Доступ запрещен!");
+
             var query = new GetAllActiveUsersQuery(currentUser);
             var users = await mediator.Send(query);
             return Ok(users);
@@ -135,7 +138,7 @@ namespace WebApi.Controllers;
             var query = new AuthenticateUserQuery(login, password);
             var user = await mediator.Send(query);
             if (user is null)
-                return BadRequest("Неверный логин/пароль или пользователь неактивен.");
+                return Unauthorized("Неверный логин/пароль или пользователь неактивен.");
             return Ok(user);
         }
 
@@ -148,6 +151,9 @@ namespace WebApi.Controllers;
             var currentUser = GetCurrentUserLogin();
             if (string.IsNullOrWhiteSpace(currentUser))
                 return BadRequest("Требуется заголовок X-Current-User");
+            
+            if (age < 0 || age > 200)
+                return BadRequest("Введите корректный возраст!");
 
             var query = new GetUsersOlderThanQuery(age, currentUser);
             var users = await mediator.Send(query);
